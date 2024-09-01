@@ -10,6 +10,7 @@ public class BranchController {
 
     @Autowired
     BranchService branchService;
+
     @PostMapping(path = "")
     ResponseEntity<?>Add(@RequestBody Branch branch){
         return branchService.Add(branch);
@@ -23,6 +24,10 @@ public class BranchController {
     @PostMapping(path = "status-change")
     ResponseEntity<?> StatusChange(@RequestParam int branch_id, boolean status) {
         return branchService.StatusChange(branch_id,status);
+    }
+    @GetMapping(path = "/{page}/{page_size}")
+    ResponseEntity<?> GetAll(@PathVariable int page,@PathVariable int page_size){
+        return branchService.GetAll(page,page_size);
     }
 
 }
