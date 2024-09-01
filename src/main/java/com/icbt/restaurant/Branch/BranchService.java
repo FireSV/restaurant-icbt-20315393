@@ -1,6 +1,8 @@
 package com.icbt.restaurant.Branch;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,5 +36,9 @@ public class BranchService {
         }
         branchOptional.get().setEnable(status);
         return ResponseEntity.ok(branchRepo.save(branchOptional.get()));
+    }
+
+    public ResponseEntity<?> GetAll(int page, int pageSize) {
+        return ResponseEntity.ok(branchRepo.findAll(PageRequest.of(page,pageSize, Sort.by(Sort.Direction.DESC,"id"))));
     }
 }
