@@ -38,6 +38,8 @@ public class AuthenticationController {
 
     @Autowired
     private RoleRepo roleRepo;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
@@ -51,8 +53,10 @@ public class AuthenticationController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        Optional<User> userOptional = userRepository.findByUsername(authenticationRequest.getUsername());
+        userOptional.get().setToken(jwt);
+        userOptional.get().setPassword(null);
+        return ResponseEntity.ok(userOptional);
     }
 
     @PostMapping("/register")
