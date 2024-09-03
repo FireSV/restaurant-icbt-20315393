@@ -1,6 +1,7 @@
 package com.icbt.restaurant.JWT;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,19 +12,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 @RestController
 public class AuthenticationController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private
+    AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private
+    JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private
+    UserDetailsService userDetailsService;
 
-    @Autowired CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private RoleRepo roleRepo;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
@@ -40,16 +52,29 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody AuthenticationRequest request) {
         if (customUserDetailsService.existsByUsername(request.getUsername())) {
             return ResponseEntity.badRequest().body("Username is already taken.");
         }
+        Optional<Role> roleOptional = roleRepo.findByName(request.getRole());
+        if (roleOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Role not found !");
+        }
+
+
+
 
         User newUser = new User();
         newUser.setUsername(request.getUsername());
         newUser.setPassword(request.getPassword());
-        customUserDetailsService.registerUser(newUser);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleOptional.get());
+        newUser.setRoles(roles);
+
+        User userSaved = customUserDetailsService.registerUser(newUser);
+
 
         return ResponseEntity.ok("User registered successfully");
     }

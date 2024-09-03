@@ -13,6 +13,7 @@ public class MenuType {
 
     @Column
     private String type; // Buffet or Ala carte
+
 //    @Column
 //    private Integer menuId; // Buffet or Ala carte
 

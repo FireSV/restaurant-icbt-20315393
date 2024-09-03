@@ -6,6 +6,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Branch {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,4 +20,5 @@ public class Branch {
 
     @Column(columnDefinition = "TINYINT")
     private Boolean enable;
+
 }
