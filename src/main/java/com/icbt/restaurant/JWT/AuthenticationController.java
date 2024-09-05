@@ -75,6 +75,11 @@ public class AuthenticationController {
         User newUser = new User();
         newUser.setUsername(request.getUsername());
         newUser.setPassword(request.getPassword());
+        newUser.setAddress(request.getAddress());
+        newUser.setFirstName(request.getFirstName());
+        newUser.setLastName(request.getLastName());
+        newUser.setContactNo(request.getContactNo());
+        newUser.setMobile(request.getMobile());
         Set<Role> roles = new HashSet<>();
         roles.add(roleOptional.get());
         newUser.setRoles(roles);
