@@ -1,6 +1,5 @@
 package com.icbt.restaurant.RestaurantMenu;
 
-import com.icbt.restaurant.MenuType.MenuTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -46,5 +45,9 @@ public class RestaurantMenuService {
         } else {
             return ResponseEntity.ok(restaurantMenuRepo.save(restaurantMenu));
         }
+    }
+
+    public ResponseEntity<?> Search(String search, int page, int page_size, int order) {
+        return ResponseEntity.ok(restaurantMenuRepo.findByTypeNameContainsOrMenuTypeAssignList_MenuType_TypeContains(search,search,PageRequest.of(page,page_size,Sort.by(order==0?Sort.Direction.DESC: Sort.Direction.ASC,"id"))));
     }
 }
