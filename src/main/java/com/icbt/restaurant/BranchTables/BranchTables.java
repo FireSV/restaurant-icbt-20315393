@@ -1,5 +1,7 @@
 package com.icbt.restaurant.BranchTables;
 
+import com.icbt.restaurant.Branch.Branch;
+import com.icbt.restaurant.JWT.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,4 +18,9 @@ public class BranchTables {
 
     @Column(unique = true)
     private Integer branchId;
+
+    @ManyToOne
+    @JoinColumn(name = "branchId", insertable = false, updatable = false)
+    Branch branch;
+
 }

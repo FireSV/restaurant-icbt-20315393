@@ -15,6 +15,11 @@ public class BranchTablesController {
         return branchTablesService.Add(branchTables);
     }
 
+    @GetMapping(path = "/{page}/{page_size}")
+    ResponseEntity<?> Get(@PathVariable int page,@PathVariable int page_size) {
+        return branchTablesService.Get(page,page_size);
+    }
+
     @PutMapping(path = "")
     ResponseEntity<?> Update(@RequestBody BranchTables branchTables) {
         return branchTablesService.Update(branchTables);
