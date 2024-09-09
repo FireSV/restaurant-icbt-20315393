@@ -26,4 +26,8 @@ public class RestaurantMenuController {
         return restaurantMenuService.Update(restaurantMenu);
     }
 
+    @PostMapping(path = "search/{page}/{page_size}/{order}")
+    ResponseEntity<?> Search(@RequestParam String search, @PathVariable int page, @PathVariable int page_size, @PathVariable int order) {
+        return restaurantMenuService.Search(search, page, page_size, order);
+    }
 }
