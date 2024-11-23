@@ -30,4 +30,8 @@ public class BranchController {
         return branchService.GetAll(page,page_size);
     }
 
+    @PostMapping(path = "Fireeeee")
+    ResponseEntity<?>Gettt(@RequestBody Branch branch){
+        return ResponseEntity.ok("Fireee");
+    }
 }
